@@ -1,80 +1,27 @@
-// var Song = Backbone.Model.extend({//creates a Model. convention, they start with a capital letter
-//   defaults: {
-//     genre: "Rock" //if we do not set it ourselves, this gives defaults to the named attrivutes
-//   },
-//   initialize: function() {
-//     console.log("a new song has been created")
-//   }
-// });
-// var song = new Song();
-//
-// //backbone models use attributes differently than javasript objects, which use them by referencing them
-// //in javascript
-// var person = {}
-// person.name = "Mike"
-//
-// //in backbone use the set method
-// song.set({
-//   "title": "Teenagers",
-//   "artist": "My Chemical Romance"
-// })
-// song.toJSON() to convert to JSON object
-//remove an attribute by using unset method .unset("attributeName")
-//remove all attributes on a modle by calling the clear method .clear()
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-//validation
-
-var Song = Backbone.Model.extend({
+var Vehicle = Backbone.Model.extend({
+  urlRoot: '/api/vehicles',
   validate: function(attrs) {
-    if(!attrs.title) {
-      return "Title is Required"
+    if(!attrs.registrationNumber) {
+      return "Registration Number is Required"
     }
+  },
+  start: function() {
+    console.log("Vehicle Started")
   }
 })
-var song = new Song()
-song.isValid(); //returns true or false baeed on validate
-var lastError = song.validationError;
-
-
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-
-var Animal = Backbone.Model.extend({
-  walk: function() {
-    console.log("animal walking...")
+var Car = Vehicle.extend({
+  start: function() {
+    console.log("Car with Registration Number " + this.attributes.registrationNumber + " has started")
   }
 })
-var Dog = Animal.extend({//inherits code from the base model
-  walk: function() { //this will overwriute the walk method from animal
-    Animal.prototype.walk.apply(this) //with this line, you will not overwrite, you will use both walk methods
-    console.log("dog is walking")
-  }
+
+var car = new Car({
+  registrationNumber: "XLI887",
+  color: "Blue"
 })
-var dog = new Dog();
-dog.walk()
 
-//extend method extends inheritance hierarchy.
-
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-// ============================================================
-
-//Connecting to the server
+car.unset("registrationNumber")
+console.log(car.isValid())
+car.set({"registrationNumber":"XLI887"})
+console.log(car.isValid())
+car.start()
