@@ -19,3 +19,14 @@ Routers: to create single page applications
 basic structure:
 on server, have a restful apis.
 views render the models.
+
+Models: containers for application data.
+Different from plain javascript objects.
+ability to send http requests to server.
+
+=====================================================
+=====================================================
+=====================================================
+
+structure:
+lib=> 3rd party code
