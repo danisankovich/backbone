@@ -36,6 +36,7 @@ var SongView = Backbone.View.extend({
   tagName: "li",
   render: function() {
     this.$el.html(this.model.get("title"));
+    this.$el.attr("id", this.model.id); //give indicator for removing and editing
     return this
   }
 });
@@ -44,10 +45,16 @@ var SongsView = Backbone.View.extend({
   tagName: "ul",
   initialize: function() {
     this.model.on("add", this.onSongAdded, this);
+    // songs.add(new Song({title: "Anna Sun"}))
+    this.model.on("remove", this.onSongRemoved, this);
   },
   onSongAdded: function(song) {
     var songView = new SongView({ model: song});
     this.$el.append(songView.render().$el);
+  },
+  onSongRemoved: function(song) { //need to give identifier to elements for removal
+    this.$el.find("li#" + song.id).remove()
+    // or // this.$("li#" + song.id).remove()
   },
   render: function() {
     var self = this;
@@ -59,9 +66,9 @@ var SongsView = Backbone.View.extend({
 })
 
 var songs = new Songs([
-  new Song({ title: "Teenagers"}),
-  new Song({ title: "Summer Song"}),
-  new Song({ title: "Shut Up And Dance"}),
+  new Song({ id: 1, title: "Teenagers"}),
+  new Song({ id: 2, title: "Summer Song"}),
+  new Song({ id: 3, title: "Shut Up And Dance"}),
 ])
 var songsView = new SongsView({ el: "#songs", model: songs});
 songsView.render();
